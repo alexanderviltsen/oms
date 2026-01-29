@@ -1,27 +1,30 @@
 package com.example.oms.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "customer")
+@Table(name = "customers")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email", nullable = false,unique = true)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "name", nullable = false,unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 }
